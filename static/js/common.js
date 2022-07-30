@@ -549,18 +549,22 @@ $(document).ready(function() {
             email = $("#emailContact").val(),
             message = $("#messageContact").val();
 			
-        var url = "assets/php/form-contact.php";
+        var url = "send_message";
 		
         $.ajax({
             type: "POST",
             url: url,
-            data: "name=" + name + "&email=" + email + "&message=" + message,
-            success : function(text){
-                if (text == "success"){
+            data:{
+                name: name,
+                email: email,
+                message: message,
+            },
+            success : function(response){
+                if (response.success == 1){
                     formSuccess();
                 } else {
                     formError();
-                    submitMSG(false,text);
+                    submitMSG(false,response.message);
                 }
             }
         });

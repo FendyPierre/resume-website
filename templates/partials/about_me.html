@@ -1,0 +1,28 @@
+<div id="about-tab" class="tabcontent active">
+	<!-- ABOUT -->
+	<div class="pb-0 pb-sm-2">
+		<h1 class="title title--h1 first-title title__separate">About Me</h1>
+		<p>{{ profile.about_me }}</p>
+	</div>
+
+	<!-- What -->
+	<div class="box-inner pb-0">
+		<h2 class="title title--h3">What I'm Doing</h2>
+		<div class="row">
+			<!-- Case Item -->
+
+			{% for doing in profile.doings.all %}
+			<div class="col-12 col-lg-6">
+				<div class="case-item box box__second">
+					<img class="case-item__icon" src="{{ doing.icon }}" alt="" />
+					<div>
+						<h3 class="title title--h5">{{ doing.title }}</h3>
+						<p class="case-item__caption">{{ doing.text }}</p>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+
+</div>

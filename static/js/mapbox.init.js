@@ -1,9 +1,9 @@
-mapboxgl.accessToken = 'YOUR-ACCESS-TOKEN';
+mapboxgl.accessToken = 'pk.eyJ1IjoiZmVuZHlwaWVycmUiLCJhIjoiY2w2Nzl0bXJ6MDFiMjNxbW4yeWZnOGk5ayJ9.fVpRwtH84Wvc6Zz0kle4Rw';
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v10',
-	center: [-73.9751,40.7289], // starting position
-    zoom: 13 // starting zoom
+	center: [-97.517054, 35.472989], // starting position
+    zoom: 11 // starting zoom
 });
 		
 // create the popup
