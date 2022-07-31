@@ -1,7 +1,10 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+from django.contrib.sessions.models import Session
 from resume_website.storage import PublicMediaStorage
 from utils.image import resize_public_image
 
+User = get_user_model()
 # Create your models here.
 
 
@@ -188,3 +191,26 @@ class GalleryImage(BaseModelClass):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         resize_public_image(image=self.image, crop=False)
+
+
+class VisitWebRequestHistory(BaseModelClass):
+    host = models.CharField(max_length=1000)
+    user_agent = models.CharField(max_length=1000, blank=True, null=True)
+    path = models.CharField(max_length=1000, blank=True, null=True)
+    remote_address = models.GenericIPAddressField()
+    remote_address_fwd = models.GenericIPAddressField(blank=True, null=True)
+    is_secure = models.BooleanField()
+    is_ajax = models.BooleanField()
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    meta = models.JSONField()
+    cookies = models.JSONField()
+    session = models.ForeignKey(Session, on_delete=models.SET_NULL, blank=True, null=True)
+    location = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        db_table = 'resume_visit'
+        verbose_name_plural = 'visits'
+        ordering = ['created_date', 'host', 'remote_address']
+
+    def __str__(self):
+        return f'{self.created_date} - {self.host} - {self.remote_address} - {self.user}'
