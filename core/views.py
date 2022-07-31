@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sessions.models import Session
 from django.core.mail import send_mail
 from django.utils.timezone import now
+from django.contrib.gis.geoip2 import GeoIP2
 from core.models import (
     Project, SkillsSet, WorkHistory,
     Education, ImageCategory, GalleryImage,
@@ -82,14 +83,16 @@ class HomeView(TemplateView):
         else:
             ip_valid = False
         if ip_valid:
-            path = os.path.join(settings.BASE_DIR, 'static', 'geo_location', 'GeoLite2-City.mmdb')
-            with geoip2.database.Reader(path) as reader:
-                try:
-                    response = reader.city(ip)
-                    location = f'{response.country}, {response.city}'
-                    location_raw = response.raw
-                except AddressNotFoundError:
-                    pass
+            g = GeoIP2()
+            try:
+                location_raw = g.city(ip)
+                location_raw["ip_address"] = ip
+                if user:
+                    location_raw["user"] = user.username
+                location = f'{location_raw.get("country_name")}, ' \
+                           f'{location_raw.get("city")} {location_raw.get("postal_code")} - {ip} @ {now()}'
+            except AddressNotFoundError:
+                pass
         if not request.session:
             request.session.create()
         session = Session.objects.filter(session_key=request.session.session_key).first()

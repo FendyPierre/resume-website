@@ -168,3 +168,4 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+GEOIP_PATH = os.path.join(BASE_DIR, 'static', 'geo_location', 'GeoLite2-City.mmdb')
