@@ -42,6 +42,7 @@ class Profile(BaseModelClass):
     email = models.EmailField(max_length=255, blank=True, null=True)
     about_me = models.TextField(blank=True, null=True)
     doings = models.ManyToManyField(DoingText)
+    image = models.ImageField(storage=PublicMediaStorage(), blank=True, null=True)
 
     class Meta:
         db_table = 'resume_profile'
@@ -49,6 +50,11 @@ class Profile(BaseModelClass):
 
     def __str__(self):
         return f'{self.last_name} {self.first_name}'
+
+    def save(self, *args, **kwargs):
+        # TODO: delete old file on field change
+        super().save(*args, **kwargs)
+        resize_public_image(image=self.image, crop=False)
 
 
 class University(BaseModelClass):
@@ -103,6 +109,7 @@ class Project(BaseModelClass):
         return self.name
 
     def save(self, *args, **kwargs):
+        # TODO: delete old file on field change
         super().save(*args, **kwargs)
         resize_public_image(image=self.image, crop=False)
 
@@ -189,6 +196,7 @@ class GalleryImage(BaseModelClass):
         return self.name
 
     def save(self, *args, **kwargs):
+        # TODO: delete old file on field change
         super().save(*args, **kwargs)
         resize_public_image(image=self.image, crop=False)
 
