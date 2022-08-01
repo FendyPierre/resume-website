@@ -116,10 +116,11 @@ class HomeView(TemplateView):
             message = model_to_dict(visit)
             if location_raw:
                 message.update(location_raw)
+
             send_mail(
                 from_email=settings.SERVER_EMAIL,
                 subject=f'New Visitor from {location}',
-                message=location_raw,
+                message=json.dumps(message, indent=2, default=str),
                 recipient_list=[settings.SERVER_EMAIL],
                 fail_silently=False
             )
