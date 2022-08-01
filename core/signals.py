@@ -13,6 +13,7 @@ def remove_file_from_s3(sender, instance, using, **kwargs):
     instance.image.delete(save=False)
 
 
-@receiver(post_delete, sender=Project)
+@receiver(post_delete, sender=Profile)
 def remove_file_from_s3(sender, instance, using, **kwargs):
     instance.image.delete(save=False)
+    instance.csv.delete(save=False)

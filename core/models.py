@@ -37,7 +37,7 @@ class Profile(BaseModelClass):
     location = models.CharField(max_length=255, blank=True, null=True)
     github = models.CharField(max_length=255, blank=True, null=True)
     linkedin = models.CharField(max_length=255, blank=True, null=True)
-    csv_path = models.CharField(max_length=255, blank=True, null=True)
+    csv = models.FileField(storage=PublicMediaStorage(), blank=True, null=True)
     favicon_path = models.CharField(max_length=255, blank=True, null=True)
     email = models.EmailField(max_length=255, blank=True, null=True)
     about_me = models.TextField(blank=True, null=True)

@@ -41,7 +41,7 @@
 				    <div class="sidebar box shadow pb-0 sticky-column">
 						<svg class="avatar avatar--180" viewBox="0 0 188 188">
                             <g class="avatar__box">
-                                <image xlink:href="{% if profile.image %} {{ profile.image.url }} {% else %} static/images/profile_picture.jpg {% endif %}" height="100%" width="100%" />
+                                <image xlink:href="{% if profile.image %} {{ profile.image.url }} {% else %}static/images/profile_picture.jpg{% endif %}" height="100%" width="100%" />
                             </g>
                         </svg>
 						<div class="text-center">
@@ -65,7 +65,7 @@
 							    </li>
 					        </ul>
 
-							<a class="btn" href="{{ profile.csv_path }}" target="_blank"><i class="font-icon icon-download"></i> Download CV</a>
+							<a class="btn" href="{% if profile.csv %} {{ profile.csv.url }} {% else %}static/downloads/Fendy_Pierre_Resume.pdf{% endif %}" target="_blank"><i class="font-icon icon-download"></i> Download CV</a>
 						</div>
 					</div>
 		        </aside>
