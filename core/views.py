@@ -1,8 +1,7 @@
 import json
 import socket
-import geoip2.database
-
-import os
+import datetime
+from django.forms.models import model_to_dict
 from geoip2.errors import AddressNotFoundError
 from django.conf import settings
 from django.http import JsonResponse
@@ -66,7 +65,7 @@ class HomeView(TemplateView):
 
         # get location of ip address
         location = 'Location Unavailable'
-        location_raw = location
+        location_raw = None
         if remote_addr_fwd:
             ip = remote_addr_fwd.split(',')[0]
         elif remote_addr:
@@ -95,11 +94,12 @@ class HomeView(TemplateView):
                 pass
         if not request.session:
             request.session.create()
+        timestamp = now() - datetime.timedelta(minutes=5)
         session = Session.objects.filter(session_key=request.session.session_key).first()
-        qs = VisitWebRequestHistory.objects.filter(session=session, created_date__year=now().year)
+        qs = VisitWebRequestHistory.objects.filter(session=session, created_date__gte=timestamp)
         if not qs.exists():
             # send email and store session
-            VisitWebRequestHistory(
+            visit = VisitWebRequestHistory.objects.create(
                 host=request.get_host(),
                 path=request.path,
                 user_agent=user_agent,
@@ -112,11 +112,14 @@ class HomeView(TemplateView):
                 cookies=cookies,
                 session=session,
                 location=location
-            ).save()
+            )
+            message = model_to_dict(visit)
+            if location_raw:
+                message.update(location_raw)
             send_mail(
                 from_email=settings.SERVER_EMAIL,
                 subject=f'New Visitor from {location}',
-                message=location_raw if location_raw else '',
+                message=location_raw,
                 recipient_list=[settings.SERVER_EMAIL],
                 fail_silently=False
             )
