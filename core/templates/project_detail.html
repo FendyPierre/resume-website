@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{object.name}}</title>
+</head>
+<body>
+<h1>{{ object.name }}</h1>
+<a href="{% url 'core:home_view' %}">Back</a>
+<br>
+
+{% if object.repo %}
+    <a href="{{ object.repo }}">Repo</a>
+{% endif %}
+<h2>Styling Coming Soon!</h2>
+<h3>{{ object.date }}</h3>
+<p>
+    Summary:
+    <br>
+    {{ object.text }}
+    <br>
+    Backend: {{ object.backend }}
+    <br>
+    Frontend: {{ object.frontend }}
+    <br>
+    Platform: {{ object.platform }}
+    <br>
+    Database: {{ object.database }}
+    <br>
+    Mobile: {{ object.mobile }}
+    <br>
+</p>
+{% if object.image %}
+    <img src="{{ object.image.url}}">
+{% endif %}
+</body>
+</html>

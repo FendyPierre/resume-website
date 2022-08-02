@@ -13,7 +13,10 @@
 					<img class="cover lazyload" src="{% if project.image %} {{ project.image.url }} {% else %} 'static/img/picture-1.png' {% endif %}" alt="" />
 				</div>
 				<div class="news-item__caption">
-					<h2 class="title title--h4">{{ project.name }}</h2>
+					<h2 class="title title--h4"><a href="{% url 'core:project_detail_view' pk=project.pk %}">{{ project.name }}</a></h2>
+					{% if project.repo %}
+						<a class="social__link" href="{{ profile.github }}" target="_blank"><i class="font-icon icon-github"></i></a>
+				  	{% endif %}
 					<p>{{ project.brief_description }}</p>
 				</div>
 			</article>

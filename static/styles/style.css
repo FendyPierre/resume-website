@@ -2697,5 +2697,7 @@ button:focus {
   border-radius: 0.0625rem;
   height: 100%;
 }
-
+.tab {
+    margin-left: 40px;
+}
 /*# sourceMappingURL=style.css.map */

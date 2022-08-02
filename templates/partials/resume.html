@@ -33,10 +33,13 @@
 						<h5 class="title title--h5 timeline__title">{{ work.title }}</h5>
 						{{ work.company }}
 						<span class="timeline__period">{{ work.start_date.year }} — {% if work.end_date%}work.end_date.year{% else %}Present{% endif %}</span>
-						<p class="timeline__description">{{ work.description }}</p>
-						{% for task in work.tasks.all %}
-							*{{ task.description }}
-						{% endfor %}
+						<p class="timeline__description">
+							{{ work.description }}
+							<br>
+							{% for task in work.tasks.all %}
+								<div class="tab"> *{{ task.description }} <br> <br> </div>
+							{% endfor %}
+						</p>
 					</article>
 					{% endfor %}
 				</div>
