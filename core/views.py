@@ -39,6 +39,7 @@ class HomeView(TemplateView):
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
 
+        # TODO: filter spam
         # store session
 
         def dumps(value):
@@ -94,7 +95,7 @@ class HomeView(TemplateView):
                 pass
         if not request.session:
             request.session.create()
-        timestamp = now() - datetime.timedelta(minutes=5)
+        timestamp = now() - datetime.timedelta(minutes=30)
         session = Session.objects.filter(session_key=request.session.session_key).first()
         qs = VisitWebRequestHistory.objects.filter(session=session, created_date__gte=timestamp)
         if not qs.exists():
@@ -113,17 +114,19 @@ class HomeView(TemplateView):
                 session=session,
                 location=location
             )
-            message = model_to_dict(visit)
-            if location_raw:
-                message.update(location_raw)
+            profile = Profile.objects.first()
+            if profile.receive_notifications:
+                message = model_to_dict(visit)
+                if location_raw:
+                    message.update(location_raw)
 
-            send_mail(
-                from_email=settings.SERVER_EMAIL,
-                subject=f'New Visitor from {location}',
-                message=json.dumps(message, indent=2, default=str),
-                recipient_list=[settings.SERVER_EMAIL],
-                fail_silently=False
-            )
+                send_mail(
+                    from_email=settings.SERVER_EMAIL,
+                    subject=f'New Visitor from {location}',
+                    message=json.dumps(message, indent=2, default=str),
+                    recipient_list=[settings.SERVER_EMAIL],
+                    fail_silently=False
+                )
         return response
 
 

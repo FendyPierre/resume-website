@@ -43,6 +43,7 @@ class Profile(BaseModelClass):
     about_me = models.TextField(blank=True, null=True)
     doings = models.ManyToManyField(DoingText)
     image = models.ImageField(storage=PublicMediaStorage(), blank=True, null=True)
+    receive_notifications = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'resume_profile'
