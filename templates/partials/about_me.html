@@ -1,4 +1,4 @@
-<div id="about-tab" class="tabcontent active">
+<div id="about-tab" class="tabcontent {% if tab_id == 'about-tab' %}active{% endif%}">
 	<!-- ABOUT -->
 	<div class="pb-0 pb-sm-2">
 		<h1 class="title title--h1 first-title title__separate">About Me</h1>
@@ -7,7 +7,7 @@
 
 	<!-- What -->
 	<div class="box-inner pb-0">
-		<h2 class="title title--h3">What I'm Doing</h2>
+		<h2 class="title title--h3">What I'm Doing {{ tab_id }} {% if tab_id == 'about-tab' %}active{% else %}not active{% endif%}</h2>
 		<div class="row">
 			<!-- Case Item -->
 

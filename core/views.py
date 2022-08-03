@@ -21,19 +21,25 @@ from core.models import (
 )
 
 
+def fill_context_data(context, tab_id):
+    context['project_list'] = Project.objects.all()
+    context['education_list'] = Education.objects.all()
+    context['skills_set_list'] = SkillsSet.objects.all()
+    context['work_list'] = WorkHistory.objects.all()
+    context['category_list'] = ImageCategory.objects.all()
+    context['image_list'] = GalleryImage.objects.all()
+    context['profile'] = Profile.objects.first()
+    context['tab_id'] = tab_id
+    return context
+
+
 # Create your views here.
 class HomeView(TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['project_list'] = Project.objects.all()
-        context['education_list'] = Education.objects.all()
-        context['skills_set_list'] = SkillsSet.objects.all()
-        context['work_list'] = WorkHistory.objects.all()
-        context['category_list'] = ImageCategory.objects.all()
-        context['image_list'] = GalleryImage.objects.all()
-        context['profile'] = Profile.objects.first()
+        context = fill_context_data(context, "about-tab")
         return context
 
     def get(self, request, *args, **kwargs):
@@ -136,6 +142,7 @@ class ProjectDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context = fill_context_data(context,  "project-detail-tab")
         return context
 
 

@@ -1,37 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{object.name}}</title>
-</head>
-<body>
-<h1>{{ object.name }}</h1>
-<a href="{% url 'core:home_view' %}">Back</a>
-<br>
+{% extends 'base.html' %}
+{% block title %}Project|{{ object.name }}{% endblock %}
+{% load static %}
 
-{% if object.repo %}
-    <a href="{{ object.repo }}">Repo</a>
-{% endif %}
-<h2>Styling Coming Soon!</h2>
-<h3>{{ object.date }}</h3>
-<p>
-    Summary:
-    <br>
-    {{ object.text }}
-    <br>
-    Backend: {{ object.backend }}
-    <br>
-    Frontend: {{ object.frontend }}
-    <br>
-    Platform: {{ object.platform }}
-    <br>
-    Database: {{ object.database }}
-    <br>
-    Mobile: {{ object.mobile }}
-    <br>
-</p>
-{% if object.image %}
-    <img src="{{ object.image.url}}">
-{% endif %}
-</body>
-</html>
+
+{% block pagecontent %}
+<div id="{{ tab_id }}" class="tabcontent active">
+    <div class="pb-3">
+        <header class="header-post">
+            <div class="header-post__date">{{ object.date }}</div>
+            <h1 class="title title--h1">Project | {{ object.name }}</h1>
+            {% if profile.github %}
+                <h5>
+                    <a href="{{ profile.github }}"><i class="font-icon icon-github"></i><span>Github</span></a>
+                </h5>
+            {% endif %}
+            <div class="caption-post">
+                <p>{{ object.brief }}</p>
+            </div>
+            {% if object.image %}
+            <div class="header-post__image-wrap">
+                <img class="cover lazyload" src="{{ object.image.url}}" alt="" />
+            </div>
+            {% endif %}
+        </header>
+        <div class="caption-post">
+            <p>{{ object.text }}</p>
+        </div>
+        <div class="caption-post">
+            <h3 class="title title--h3">{{ object.brief_description }}</h3>
+            <p>{{ object.description }}</p>
+        </div>
+    </div>
+</div>
+{% endblock pagecontent %}
