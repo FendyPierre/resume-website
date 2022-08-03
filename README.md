@@ -26,6 +26,8 @@ Use this to deploy your custom resume website.
   
 * Make Readme more descriptive.
 
+* Make project details page apart of landing page.
+
 
 # Getting Started
 
