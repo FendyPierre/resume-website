@@ -20,11 +20,12 @@ class DoingText(BaseModelClass):
     text = models.TextField()
     title = models.CharField(max_length=250, blank=True, null=True)
     icon = models.CharField(max_length=250, blank=True, null=True)
+    ordering = models.IntegerField(blank=True, null=True)
 
     class Meta:
         db_table = 'resume_doing'
         verbose_name_plural = 'What Im doing texts'
-        ordering = ['text']
+        ordering = ['ordering']
 
     def __str__(self):
         return self.title
